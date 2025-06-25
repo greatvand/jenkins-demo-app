@@ -11,7 +11,7 @@ pipeline {
     stage('Build & Push') {
       steps {
         sh 'docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW'
-        sh "docker build -t greatvand/demo-app:${GIT_COMMIT} ."
+        sh "docker build -t greatvand/demo-app:${GIT_COMMIT} ./app"
         sh "docker push greatvand/demo-app:${GIT_COMMIT}"
       }
     }
