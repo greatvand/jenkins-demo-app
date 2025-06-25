@@ -1,0 +1,26 @@
+---
+- name: Deploy Node App to Docker Host
+  hosts: docker
+  become: yes
+  tasks:
+    - name: Pull latest Docker image
+      docker_image:
+        name: greatvand/demo-app
+        tag: "{{ lookup('env','GIT_COMMIT') }}"
+        source: pull
+
+    - name: Stop old container (if exists)
+      docker_container:
+        name: demo-app
+        state: absent
+        force_kill: yes
+
+    - name: Run new container
+      docker_container:
+        name: demo-app
+        image: greatvand/demo-app:{{ lookup('env','GIT_COMMIT') }}
+        published_ports:
+          - "80:3000"
+        restart_policy: always
+        state: started
+
