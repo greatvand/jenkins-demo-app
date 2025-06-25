@@ -1,7 +1,6 @@
 ---
 - name: Deploy Node App to Docker Host
   hosts: docker
-  become: yes
   tasks:
     - name: Pull latest Docker image
       docker_image:
